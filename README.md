@@ -17,6 +17,10 @@ A base de estacas da FICO (BD estacas, versão de 07/10/2026, incluindo a Alça 
 
 Reproduz os vídeos exportados pelo gerador com a barra de progresso em km, os pontos do trecho com filtros por tipo e um catálogo dos vídeos da pasta do Google Drive organizado por Pacote › Mês.
 
+## Player FICO · YouTube — https://fico-voo.github.io/Voosfico/player2.html
+
+Mesmo player, com os vídeos tocando pelo canal ATO - FICO no YouTube. Os dados de km continuam vindo dos arquivos `_KM.json` do Drive. Para ligar um vídeo do catálogo ao YouTube, clique nele e cole o link. Os links novos são publicados com o botão "Salvar links do YouTube (.json)", que gera o `catalogo_youtube.json` para colocar no site.
+
 Os vídeos, legendas e logos de quem usa o gerador são processados no próprio navegador e não são enviados para nenhum servidor. Use Google Chrome ou Microsoft Edge atualizados.
 
 Desenvolvido por Filipe Milani.
