@@ -437,7 +437,8 @@ async function openVideo(file,lookEmbedded){
     else { clearData(); V.controls=true; msg('Este vídeo não tem dados de km. Ele pode ter sido exportado por uma versão antiga do gerador ou recomprimido por outro aplicativo (como o WhatsApp). Abra o arquivo _KM.json do mesmo vídeo.','warn') } }
 }
 V.addEventListener('loadedmetadata',()=>{ V.playbackRate=+$('pSpeed').value; update() });
-V.addEventListener('error',()=>msg(/googleapis/.test(V.currentSrc||'')?'O Drive não liberou este vídeo agora (o limite de downloads do arquivo pode ter sido atingido). Tente de novo mais tarde.':'O navegador não conseguiu abrir este vídeo. Use o Google Chrome ou o Microsoft Edge atualizados.','err'));
+V.addEventListener('error',()=>{ if(/googleapis/.test(V.currentSrc||'')&&CAT.cur&&!V.dataset.alt){ V.dataset.alt='1'; const t=V.currentTime||0; V.src=`https://drive.usercontent.google.com/download?id=${encodeURIComponent(CAT.cur.id)}&export=download&confirm=t`; if(t) V.addEventListener('loadedmetadata',()=>{ V.currentTime=t },{once:true}); return }
+  msg(/google/.test(V.currentSrc||'')?'O Drive não liberou este vídeo agora (o limite de downloads do arquivo pode ter sido atingido). Tente de novo mais tarde.':'O navegador não conseguiu abrir este vídeo. Use o Google Chrome ou o Microsoft Edge atualizados.','err') });
 V.addEventListener('play',()=>{ $('btnPlay').textContent='❚❚'; $('btnPlay').setAttribute('aria-label','Pausar'); loop() });
 V.addEventListener('pause',()=>{ $('btnPlay').textContent='▶'; $('btnPlay').setAttribute('aria-label','Reproduzir'); update() });
 V.addEventListener('seeked',()=>update());
@@ -525,6 +526,15 @@ async function driveData(it){
 }
 function pacoteDe(path){ for(const p of path){ const m=p.match(/pacote\s*0*(\d+)/i); if(m) return 'Pacote '+String(m[1]).padStart(2,'0') } return 'Sem pacote' }
 function segDe(path,nome){ for(const p of [...path].reverse().concat(nome.replace(/\.[^.]+$/,''))){ if(/al[çc]a/i.test(p)) return 'Alça Sul'; const m=p.match(/\bseg(?:mento)?\.?\s*([0-9]+[0-9A-Za-z.]*)/i); if(m) return 'Seg. '+m[1].replace(/\.$/,'') } return 'Sem segmento' }
+/* guarda o resumo de cada vídeo (km inicial/final) e os que não têm km, para não baixar de novo a cada visita:
+   o Google bloqueia por um tempo os downloads sem login quando recebe muitos de uma vez da mesma rede */
+const lsGet=(k,d)=>{ try{ return JSON.parse(localStorage.getItem(k)||'null')??d }catch(e){ return d } };
+const lsSet=(k,v)=>{ try{ localStorage.setItem(k,JSON.stringify(v)) }catch(e){} };
+const temKm=it=>it.ini!=null&&isFinite(it.ini);
+function salvaCat(){ lsSet('pf:cat',{semKm:CAT.semKm,itens:CAT.itens.map(it=>({id:it.id,name:it.name,size:it.size,json:it.json&&{id:it.json.id},mes:it.mes,mesKey:it.mesKey,pacote:it.pacote,seg:it.seg,ini:temKm(it)?it.ini:null,fim:temKm(it)?it.fim:null,date:it.date||''}))}) }
+function resumo(it){ const d=it.data, z=d.zones||{}; it.ini=d.km[0]; it.fim=d.km[d.km.length-1]; it.date=d.date||'';
+  if(it.seg==='Sem segmento'&&z.segmento&&z.segmento.length) it.seg='Seg. '+z.segmento[0].nome;
+  if(it.pacote==='Sem pacote'&&z.pacote&&z.pacote.length) it.pacote='Pacote '+String(z.pacote[0].nome).padStart(2,'0') }
 async function buildCatalog(){
   if(CAT.busy) return; CAT.busy=true; const st=$('catSt'); st.className='cat-st'; st.textContent=CAT.itens.length?'Atualizando a lista com o Drive…':'Lendo as pastas do Drive…'; $('btnCat').disabled=true;
   try{
@@ -543,31 +553,39 @@ async function buildCatalog(){
     }
     // junta cada vídeo com o .json de mesmo nome da mesma pasta
     const pastas=new Map(); for(const f of files){ const k=f.mes.key+'|'+f.path.join('/'); if(!pastas.has(k)) pastas.set(k,[]); pastas.get(k).push(f) }
+    const antes=new Map(CAT.itens.map(it=>[it.id,it])), sem=new Set(lsGet('pf:semkm',[]));
     const itens=[];
     for(const fs of pastas.values()){ const js=fs.filter(f=>/\.json$/i.test(f.name));
       for(const v of fs.filter(isVideo)){ const s=stemOf(v.name), j=js.find(x=>{ const t=stemOf(x.name); return t===s||t===s+'_km' });
-        itens.push({id:v.id,name:v.name,size:v.size,json:j||null,mes:v.mes.label,mesKey:v.mes.key,pacote:pacoteDe(v.path),seg:segDe(v.path,v.name),data:null}) } }
-    if(!CAT.itens.length) st.textContent=`Procurando vídeos com dados de km (${itens.length} vídeos)…`;
-    let falhas=0; await pool(itens,6,async it=>{ try{ it.data=await driveData(it) }catch(e){ falhas++ } });
-    if(falhas&&falhas>=itens.length/2){   // o Google recusou os downloads (bloqueio temporário da rede)
-      st.className='cat-st err'; st.textContent='O Google recusou os downloads do Drive desta rede por enquanto ("tráfego automatizado"). '+(CAT.itens.length?'Mostrando a última lista guardada. ':'')+'Tente Atualizar mais tarde.'; return }
-    CAT.itens=itens.filter(it=>it.data); CAT.semKm=itens.length-CAT.itens.length;
-    for(const it of CAT.itens){ const d=it.data, z=d.zones||{}; it.ini=d.km[0]; it.fim=d.km[d.km.length-1]; it.date=d.date||'';
-      if(it.seg==='Sem segmento'&&z.segmento&&z.segmento.length) it.seg='Seg. '+z.segmento[0].nome;
-      if(it.pacote==='Sem pacote'&&z.pacote&&z.pacote.length) it.pacote='Pacote '+String(z.pacote[0].nome).padStart(2,'0') }
+        const it={id:v.id,name:v.name,size:v.size,json:j||null,mes:v.mes.label,mesKey:v.mes.key,pacote:pacoteDe(v.path),seg:segDe(v.path,v.name),data:null,ini:null,fim:null,date:''};
+        const o=antes.get(v.id);
+        if(o&&String(o.size)===String(v.size)){ it.data=o.data||null; if(temKm(o)){ it.ini=o.ini; it.fim=o.fim; it.date=o.date; if(it.seg==='Sem segmento') it.seg=o.seg; if(it.pacote==='Sem pacote') it.pacote=o.pacote } }
+        it.semKm=!it.json&&sem.has(v.id+':'+v.size);
+        itens.push(it) } }
+    // baixa só o que ainda não conhece: primeiro os .json, depois o fim dos vídeos sem .json; poucos de cada vez e para no primeiro bloqueio
+    const novos=itens.filter(it=>!temKm(it)&&!it.semKm).sort((a,b)=>(b.json?1:0)-(a.json?1:0));
+    if(novos.length) st.textContent=`Lendo os km de ${novos.length} vídeo(s) novo(s)…`;
+    let bloq=false;
+    await pool(novos,2,async it=>{ if(bloq) return;
+      try{ const d=await driveData(it); if(d) resumo(it); else if(!it.json) sem.add(it.id+':'+it.size) }catch(e){ bloq=true } });
+    lsSet('pf:semkm',[...sem]);
+    // aparecem no catálogo os vídeos com km e os que têm .json (o km deles carrega ao abrir, se o Google ainda não liberou)
+    CAT.itens=itens.filter(it=>temKm(it)||it.json); CAT.semKm=itens.length-CAT.itens.length;
     if(CAT.cur){ const c=CAT.itens.find(x=>x.id===CAT.cur.id); if(c){ c.data=c.data||CAT.cur.data; CAT.cur=c } }
-    try{ localStorage.setItem('pf:cat',JSON.stringify({semKm:CAT.semKm,itens:CAT.itens.map(it=>({id:it.id,name:it.name,size:it.size,json:it.json&&{id:it.json.id},mes:it.mes,mesKey:it.mesKey,pacote:it.pacote,seg:it.seg,ini:it.ini,fim:it.fim,date:it.date}))})) }catch(e){}
-    st.textContent=`${CAT.itens.length} vídeo(s) com km`+(CAT.semKm?` · ${CAT.semKm} sem dados de km (originais do drone) ficam de fora`:'');
+    salvaCat();
+    const pend=CAT.itens.filter(it=>!temKm(it)).length;
+    if(bloq){ st.className='cat-st err'; st.textContent=`O Google limitou por enquanto os downloads do Drive desta rede ("tráfego automatizado"). ${CAT.itens.length} vídeo(s) na lista`+(pend?`; o km de ${pend} aparece quando o Google liberar`:'')+'. Tente Atualizar mais tarde.' }
+    else st.textContent=`${CAT.itens.length} vídeo(s) com km`+(CAT.semKm?` · ${CAT.semKm} sem dados de km (originais do drone) ficam de fora`:'');
     renderCatalog();
-  }catch(e){ st.className='cat-st err'; st.textContent='Não foi possível ler o Drive: '+(e.message||e)+'. Confira a internet e a chave da API.'; $('cat').textContent='' }
+  }catch(e){ st.className='cat-st err'; st.textContent='Não foi possível ler o Drive: '+(e.message||e)+'. Confira a internet e a chave da API.'; if(!CAT.itens.length) $('cat').textContent='' }
   finally{ CAT.busy=false; $('btnCat').disabled=false }
 }
 const kmIni=it=>it.ini, kmFim=it=>it.fim;
 function renderCatalog(){
   const box=$('cat'); box.textContent='';
   const qs=$('catQ').value.trim(), qk=parseKm(qs), qt=normTxt(qs);
-  const hit=it=>{ if(!qs) return true; if(isFinite(qk)){ const a=Math.min(kmIni(it),kmFim(it)), b=Math.max(kmIni(it),kmFim(it)); return qk>=a-50&&qk<=b+50 }
-    return normTxt(`${it.pacote} ${it.seg} ${it.mes} ${it.name} ${fmtKm(kmIni(it))} ${fmtKm(kmFim(it))}`).includes(qt) };
+  const hit=it=>{ if(!qs) return true; if(isFinite(qk)){ if(!temKm(it)) return false; const a=Math.min(kmIni(it),kmFim(it)), b=Math.max(kmIni(it),kmFim(it)); return qk>=a-50&&qk<=b+50 }
+    return normTxt(`${it.pacote} ${it.seg} ${it.mes} ${it.name} ${temKm(it)?fmtKm(kmIni(it))+' '+fmtKm(kmFim(it)):''}`).includes(qt) };
   const lista=CAT.itens.filter(hit);
   if(!lista.length){ box.innerHTML=`<p class="none">${CAT.itens.length?'Nenhum vídeo para essa busca.':'Nenhum vídeo com dados de km nas pastas lidas.'}</p>`; return }
   const nat=(a,b)=>a.localeCompare(b,'pt-BR',{numeric:true});
@@ -583,10 +601,10 @@ function renderCatalog(){
       ds.innerHTML=`<summary>${seg}<span class="n">${its.length}</span></summary>`;
       const porMes=new Map(); for(const it of its){ if(!porMes.has(it.mesKey)) porMes.set(it.mesKey,[]); porMes.get(it.mesKey).push(it) }
       for(const mk of [...porMes.keys()].sort()){
-        const l=porMes.get(mk).sort((a,b)=>Math.min(kmIni(a),kmFim(a))-Math.min(kmIni(b),kmFim(b)));
+        const ord=it=>temKm(it)?Math.min(kmIni(it),kmFim(it)):Infinity, l=porMes.get(mk).sort((a,b)=>ord(a)-ord(b)||a.name.localeCompare(b.name,'pt-BR',{numeric:true}));
         const h=document.createElement('div'); h.className='mes'; h.textContent=l[0].mes; ds.appendChild(h);
         for(const it of l){ const b=document.createElement('button'); b.type='button'; b.className='vid'+(CAT.cur===it?' on':'');
-          b.textContent=`km ${fmtKm(kmIni(it))} → ${fmtKm(kmFim(it))}`;
+          b.textContent=temKm(it)?`km ${fmtKm(kmIni(it))} → ${fmtKm(kmFim(it))}`:'km a carregar';
           const sm=document.createElement('small'); sm.textContent=it.name+(it.date?' · '+it.date:''); b.appendChild(sm);
           b.title=`${it.pacote} › ${it.seg} › ${it.mes} · ${it.name}`;
           b.onclick=()=>openDrive(it,isFinite(qk)?qk:null); it.btn=b; ds.appendChild(b) }
@@ -600,11 +618,11 @@ async function openDrive(it,irKm){
   if(ST.url){ URL.revokeObjectURL(ST.url); ST.url=null }
   CAT.cur=it; document.querySelectorAll('#cat .vid.on').forEach(b=>b.classList.remove('on')); if(it.btn) it.btn.classList.add('on');
   ST.name=it.name; ST.lastSeekT=0;
-  V.hidden=false; V.controls=false; V.src=mediaUrl(it.id); V.playbackRate=+$('pSpeed').value;
+  V.hidden=false; V.controls=false; V.dataset.alt=''; V.src=mediaUrl(it.id); V.playbackRate=+$('pSpeed').value;
   $('empty').hidden=true; $('btnPlay').disabled=false; $('fileName').textContent=`${it.pacote} › ${it.seg} › ${it.mes} · ${it.name}`;
   msg('Abrindo vídeo do Drive…');
   let bloqueio=false; const d=it.data||await driveData(it).catch(()=>{ bloqueio=true; return null });
-  if(d){ setData(d,'do Drive'); if(irKm!=null){ const go=()=>goKm(irKm,'near'); if(V.readyState>=1) go(); else V.addEventListener('loadedmetadata',go,{once:true}) } }
+  if(d){ if(!temKm(it)){ resumo(it); salvaCat(); renderCatalog() } setData(d,'do Drive'); if(irKm!=null){ const go=()=>goKm(irKm,'near'); if(V.readyState>=1) go(); else V.addEventListener('loadedmetadata',go,{once:true}) } }
   else { clearData(); V.controls=true; msg(bloqueio?'Não foi possível baixar os dados de km do Drive agora. O Google pode ter limitado os downloads desta rede por um tempo; tente mais tarde.':'Este vídeo não tem dados de km.','warn') }
 }
 $('btnCat').onclick=()=>buildCatalog();
