@@ -187,7 +187,6 @@ header.top{align-items:center}
   <nav class="nav" aria-label="Catálogo de vídeos">
     <div class="nav-in">
       <div class="nav-head"><h2>Vídeos</h2><button class="btn-sm" id="btnCat" type="button" title="Ler as pastas do Drive de novo">Atualizar</button></div>
-      <input class="q" id="catQ" type="search" placeholder="Buscar km (072+500) ou segmento" aria-label="Buscar vídeo por km, pacote ou segmento" autocomplete="off">
       <div class="cat-st" id="catSt">Lendo as pastas do Drive…</div>
       <div class="cat" id="cat"></div>
       <div class="cat-foot">
@@ -667,7 +666,7 @@ async function buildCatalog(){
 const kmIni=it=>it.ini, kmFim=it=>it.fim;
 function renderCatalog(){
   const box=$('cat'); box.textContent='';
-  const qs=$('catQ').value.trim(), qk=parseKm(qs), qt=normTxt(qs);
+  const qs='', qk=parseKm(qs), qt=normTxt(qs);
   const hit=it=>{ if(!qs) return true; if(isFinite(qk)){ if(!temKm(it)) return false; const a=Math.min(kmIni(it),kmFim(it)), b=Math.max(kmIni(it),kmFim(it)); return qk>=a-50&&qk<=b+50 }
     return normTxt(`${it.pacote} ${it.seg} ${it.mes} ${it.name} ${temKm(it)?fmtKm(kmIni(it))+' '+fmtKm(kmFim(it)):''}`).includes(qt) };
   const lista=CAT.itens.filter(hit);
@@ -787,7 +786,6 @@ $('btnCatSave').onclick=()=>{
     semKm:lsGet('pf:semkm',[])};
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(c,null,1)],{type:'application/json'})); a.download='catalogo.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),5000);
   msg(`catalogo.json salvo com ${its.length} vídeo(s)`+(falta?` (${falta} ainda sem km ficaram de fora)`:'')+'. Publique o arquivo junto com o site para atualizar o catálogo de todos.',falta?'warn':'ok') };
-let catT=null; $('catQ').addEventListener('input',()=>{ clearTimeout(catT); catT=setTimeout(renderCatalog,150) });
 
 (function(){ try{ const c=JSON.parse(localStorage.getItem('pf:cat')||'null'); if(c&&Array.isArray(c.itens)&&c.itens.length){ CAT.itens=c.itens.map(x=>({...x,data:null})); CAT.semKm=c.semKm||0; renderCatalog() } }catch(e){} })();
 update(); lkPend();
