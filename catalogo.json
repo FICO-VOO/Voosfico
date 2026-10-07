@@ -1,0 +1,197 @@
+{
+ "v": 1,
+ "app": "Player FICO",
+ "gerado": "2026-10-07T13:21:01.364Z",
+ "itens": [
+  {
+   "id": "1o5lb8JXQm3LlONbZHy_j0nvg-F0oQXxR",
+   "name": "Alça.mp4",
+   "size": "74932156",
+   "json": {
+    "id": "11VwqWbP9D7xgwhIux1-Igi6fAIfYOtdz"
+   },
+   "mes": "Outubro 2026",
+   "mesKey": "2026-10",
+   "pacote": "Pacote 01",
+   "seg": "Alça Sul",
+   "ini": 999752.1,
+   "fim": 1002347.5,
+   "date": "05/10/2026"
+  },
+  {
+   "id": "1fs5WUbe2yNbo2VrjPo336YlVFn1z7qaJ",
+   "name": "Seg 1.3.mp4",
+   "size": "176797992",
+   "json": {
+    "id": "1V1XLW9sKCvkJBBb70eupqDNjftRjxjnc"
+   },
+   "mes": "Outubro 2026",
+   "mesKey": "2026-10",
+   "pacote": "Pacote 01",
+   "seg": "Seg. 1.3",
+   "ini": 25406.1,
+   "fim": 31100.3,
+   "date": "05/10/2026"
+  },
+  {
+   "id": "1bjdq3zrTgpNb7D40S-A0DHVwflCyzh3X",
+   "name": "Seg 1.1.mp4",
+   "size": "409667109",
+   "json": {
+    "id": "15MII7CzBjvJpzVXWoCKoabvVUgsLbAfz"
+   },
+   "mes": "Outubro 2026",
+   "mesKey": "2026-10",
+   "pacote": "Pacote 01",
+   "seg": "Seg. 1.1",
+   "ini": -230.9,
+   "fim": 12300.7,
+   "date": "05/10/2026"
+  },
+  {
+   "id": "1k3u7ZtbwTeqG4eUyH_Z-z7D58K6brMmM",
+   "name": "Seg 1.2.mp4",
+   "size": "493983252",
+   "json": {
+    "id": "19_yDX-T2RDgXHuhBCY6CuZWLRphJx11A"
+   },
+   "mes": "Outubro 2026",
+   "mesKey": "2026-10",
+   "pacote": "Pacote 01",
+   "seg": "Seg. 1.2",
+   "ini": 11439.1,
+   "fim": 26500.1,
+   "date": "05/10/2026"
+  },
+  {
+   "id": "18haF3KFx7_3bHokFG2dmRwjK-eE28hCl",
+   "name": "Seg 1.4.mp4",
+   "size": "189456612",
+   "json": {
+    "id": "1zMdsmd6SZzHysHOnspqGeKYun08Jo9Vw"
+   },
+   "mes": "Outubro 2026",
+   "mesKey": "2026-10",
+   "pacote": "Pacote 01",
+   "seg": "Seg. 1.4",
+   "ini": 31944.7,
+   "fim": 38138.6,
+   "date": "05/10/2026"
+  },
+  {
+   "id": "1STJsCmALYV42EnouIRlvhcOLQfdJ4Zvy",
+   "name": "Seg1.5.mp4",
+   "size": "238195193",
+   "json": {
+    "id": "1hMG5ZBPkwxsU3FpY51gFMz8zpYrsHcPw"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 02",
+   "seg": "Seg. 1.5",
+   "ini": 46086.7,
+   "fim": 53422.6,
+   "date": "02/09/2026"
+  },
+  {
+   "id": "1-KQq5CqXd_E66AOeMkZYYzo6vE0yAuSN",
+   "name": "Seg 1.4B.mp4",
+   "size": "260440169",
+   "json": {
+    "id": "1kIvwCqtOTMs2wDkmuwWvf3wuOEvR5G9-"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 02",
+   "seg": "Seg. 1.4B",
+   "ini": 37955.3,
+   "fim": 46300.6,
+   "date": "02/09/2026"
+  },
+  {
+   "id": "11pW79r0vfsxbzZe2tCNC2Xbq_CLwo_4n",
+   "name": "Seg 1.4A.mp4",
+   "size": "223683560",
+   "json": null,
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 01",
+   "seg": "Seg. 1.4A",
+   "ini": 30901.1,
+   "fim": 38125.2,
+   "date": "02/09/2026"
+  },
+  {
+   "id": "1N3jbn8thu8ZgIccP17KGEYvS9FmZTA_C",
+   "name": "Seg 1.3.mp4",
+   "size": "188494698",
+   "json": {
+    "id": "1awlzkmqEb9WzpDl7E3qmJ_Lc7fJkrEQB"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 01",
+   "seg": "Seg. 1.3",
+   "ini": 25000.5,
+   "fim": 31150.1,
+   "date": "01/09/2026"
+  },
+  {
+   "id": "1u316tGA3bYjiNG9RG8PAb4YWVChAjWsx",
+   "name": "Seg 1.2.mp4",
+   "size": "485065766",
+   "json": {
+    "id": "11OOqzAK1haNrYbb5XF5vcZ4ZtjClbUS1"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 01",
+   "seg": "Seg. 1.2",
+   "ini": 11770.7,
+   "fim": 26465.1,
+   "date": "01/09/2026"
+  },
+  {
+   "id": "1ae3_0uejk_g7QiDgvBLfq96t4jfFJWmD",
+   "name": "Seg 1.1.mp4",
+   "size": "203263369",
+   "json": {
+    "id": "16v4Rh5GDegk4_LIg-ifXKm5sYNjCkGM3"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 01",
+   "seg": "Seg. 1.1",
+   "ini": -258.7,
+   "fim": 11959.9,
+   "date": "01/09/2026"
+  }
+ ],
+ "semKm": [
+  "1HdYA9jYWBRTG_TltY5m3ZdQo0RYJsqO1:2411178048",
+  "16gezFD4SaHhKfL51s6YF2vOltsqk2FLf:3496047498",
+  "1t4_BERU33pW7oMQE9n9uIBj1EjdZFd2M:2510898695",
+  "1fHmrFpiFrqbFFQwbBwVug1m-nVny23ZN:2836871771",
+  "1uTuFPIu33JGz5jaReh7d2PrEoffVms-G:3040557428",
+  "1ojx3vi4N5a6ZcyHa2-Y9f6n7U5B9O3MS:815681857",
+  "1d5hbw4REjGnEzifzrBKfi0JTdbqfiicg:3797531436",
+  "1as9gp9zMyhrgbggK_HWhEV4p7cy4Ruve:6077500841",
+  "1lD7xgCZkzCTXPwldtE8hlPLPPYweWlA5:2878573851",
+  "1_z7MaI1YLL1jhtSWWe_zAFcB2xLuIUQm:3118042530",
+  "1_Kyq_-_zTo6he9n97Zh4BHaccIkKf3Iw:1299397646",
+  "1vkZB0JUpfrfGDH0gaNEUCg8YHSkIPJTj:3618192619",
+  "12cb__UMv0HSn23ev6Df6297sFnOnJ3K9:2723986060",
+  "1RhT1703tTcMu9_6P2i-fDt5n05auLbQd:942161522",
+  "1GuXgWuQ9JvEeEs1kdUfimakSqZ6UVKck:2758364870",
+  "1jlU4oKDAqnrRqrn3ngsW9q6ch5BDKRrr:1859477984",
+  "10z2jPxI0Bq3b1YOzv-21qoVKAZH_ZM3K:2658590925",
+  "1TLA_Bu2vea9WC2PKS-B0_lc_O00CxhSF:1881370024",
+  "1XvwUlTJtV5Q1kIjw6i9IhLznY8ShG9us:3358603145",
+  "1eLtzJ_8FW-fFA65pJnr4hI_QmdZhD-xW:1858680889",
+  "14g1hcvFRtiSSFHElzryC1SQ0DU6YzB7V:1145183750",
+  "1IHFjbiVSBHan2Cds2Mxaq88OucqfZrn-:811855215",
+  "1D2rFIxf-t2aqqaHl81c5VUuBZaB7R9KR:3427662257",
+  "11nJtgQKaMQ-_-YTZPbW49Fll4olWDM0R:2964241381",
+  "1E0_UUZS1CWpp3MIVq_O7GUJMW3nW39Fx:588239224"
+ ]
+}
