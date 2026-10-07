@@ -15,7 +15,7 @@ A base de estacas da FICO (BD estacas, versão de 07/10/2026, incluindo a Alça 
 
 ## Player FICO — https://fico-voo.github.io/Voosfico/player.html
 
-Reproduz os vídeos exportados pelo gerador com a barra de progresso em km, os pontos do trecho com filtros por tipo e um catálogo dos vídeos da pasta do Google Drive organizado por Pacote › Segmento › Mês.
+Reproduz os vídeos exportados pelo gerador com a barra de progresso em km, os pontos do trecho com filtros por tipo e um catálogo dos vídeos da pasta do Google Drive organizado por Pacote › Mês.
 
 Os vídeos, legendas e logos de quem usa o gerador são processados no próprio navegador e não são enviados para nenhum servidor. Use Google Chrome ou Microsoft Edge atualizados.
 

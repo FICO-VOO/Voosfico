@@ -495,7 +495,7 @@ addEventListener('dragleave',()=>{if(--dragN<=0){dragN=0;$('drop').hidden=true}}
 addEventListener('dragover',e=>e.preventDefault());
 addEventListener('drop',e=>{e.preventDefault();dragN=0;$('drop').hidden=true; const fs=[...e.dataTransfer.files]; if(fs.length) openFiles(fs)});
 addEventListener('resize',()=>update());
-/* ---------- catálogo de vídeos no Google Drive (Pacote › Segmento › Mês) ---------- */
+/* ---------- catálogo de vídeos no Google Drive (Pacote › Mês) ---------- */
 const DRIVE={
   key:'AIzaSyD0mhDFp538q9ILuAE-nANeZl0CViHCW-8',
   raiz:'17zfZAUvmw5mWVJM0S0WW4ELiFJLDC43r',            // pasta "Drone"
@@ -593,26 +593,23 @@ function renderCatalog(){
   const lista=CAT.itens.filter(hit);
   if(!lista.length){ box.innerHTML=`<p class="none">${CAT.itens.length?'Nenhum vídeo para essa busca.':'Nenhum vídeo com dados de km nas pastas lidas.'}</p>`; return }
   const nat=(a,b)=>a.localeCompare(b,'pt-BR',{numeric:true});
-  const porPac=new Map(); for(const it of lista){ if(!porPac.has(it.pacote)) porPac.set(it.pacote,new Map()); const s=porPac.get(it.pacote); if(!s.has(it.seg)) s.set(it.seg,[]); s.get(it.seg).push(it) }
+  // hierarquia: Pacote › Mês (mês mais recente primeiro); dentro do mês, vídeos em ordem de km
+  const porPac=new Map(); for(const it of lista){ if(!porPac.has(it.pacote)) porPac.set(it.pacote,new Map()); const m=porPac.get(it.pacote); if(!m.has(it.mesKey)) m.set(it.mesKey,[]); m.get(it.mesKey).push(it) }
+  const ord=it=>temKm(it)?Math.min(kmIni(it),kmFim(it)):Infinity;
   for(const pac of [...porPac.keys()].sort(nat)){
-    const segs=porPac.get(pac), dp=document.createElement('details'); dp.className='pac';
-    const tot=[...segs.values()].reduce((s,l)=>s+l.length,0);
+    const meses=porPac.get(pac), dp=document.createElement('details'); dp.className='pac';
+    const tot=[...meses.values()].reduce((s,l)=>s+l.length,0);
     dp.open=!!qs||(CAT.cur&&CAT.cur.pacote===pac)||porPac.size===1;
     dp.innerHTML=`<summary>${pac}<span class="n">${tot}</span></summary>`;
-    for(const seg of [...segs.keys()].sort(nat)){
-      const its=segs.get(seg), ds=document.createElement('details'); ds.className='seg';
-      ds.open=true;
-      ds.innerHTML=`<summary>${seg}<span class="n">${its.length}</span></summary>`;
-      const porMes=new Map(); for(const it of its){ if(!porMes.has(it.mesKey)) porMes.set(it.mesKey,[]); porMes.get(it.mesKey).push(it) }
-      for(const mk of [...porMes.keys()].sort()){
-        const ord=it=>temKm(it)?Math.min(kmIni(it),kmFim(it)):Infinity, l=porMes.get(mk).sort((a,b)=>ord(a)-ord(b)||a.name.localeCompare(b.name,'pt-BR',{numeric:true}));
-        const h=document.createElement('div'); h.className='mes'; h.textContent=l[0].mes; ds.appendChild(h);
-        for(const it of l){ const b=document.createElement('button'); b.type='button'; b.className='vid'+(CAT.cur===it?' on':'');
-          b.textContent=temKm(it)?`km ${fmtKm(kmIni(it))} → ${fmtKm(kmFim(it))}`:'km a carregar';
-          const sm=document.createElement('small'); sm.textContent=it.name+(it.date?' · '+it.date:''); b.appendChild(sm);
-          b.title=`${it.pacote} › ${it.seg} › ${it.mes} · ${it.name}`;
-          b.onclick=()=>openDrive(it,isFinite(qk)?qk:null); it.btn=b; ds.appendChild(b) }
-      }
+    for(const mk of [...meses.keys()].sort().reverse()){
+      const l=meses.get(mk).sort((a,b)=>ord(a)-ord(b)||nat(a.seg,b.seg)||nat(a.name,b.name));
+      const ds=document.createElement('details'); ds.className='seg'; ds.open=true;
+      ds.innerHTML=`<summary>${l[0].mes}<span class="n">${l.length}</span></summary>`;
+      for(const it of l){ const b=document.createElement('button'); b.type='button'; b.className='vid'+(CAT.cur===it?' on':'');
+        b.textContent=temKm(it)?`km ${fmtKm(kmIni(it))} → ${fmtKm(kmFim(it))}`:'km a carregar';
+        const sm=document.createElement('small'); sm.textContent=[it.seg!=='Sem segmento'?it.seg:it.name,it.date].filter(Boolean).join(' · '); b.appendChild(sm);
+        b.title=`${it.pacote} › ${it.mes} › ${it.seg} · ${it.name}`;
+        b.onclick=()=>openDrive(it,isFinite(qk)?qk:null); it.btn=b; ds.appendChild(b) }
       dp.appendChild(ds);
     }
     box.appendChild(dp);
@@ -623,7 +620,7 @@ async function openDrive(it,irKm){
   CAT.cur=it; document.querySelectorAll('#cat .vid.on').forEach(b=>b.classList.remove('on')); if(it.btn) it.btn.classList.add('on');
   ST.name=it.name; ST.lastSeekT=0;
   V.hidden=false; V.controls=false; V.dataset.alt=''; V.src=mediaUrl(it.id); V.playbackRate=+$('pSpeed').value;
-  $('empty').hidden=true; $('btnPlay').disabled=false; $('fileName').textContent=`${it.pacote} › ${it.seg} › ${it.mes} · ${it.name}`;
+  $('empty').hidden=true; $('btnPlay').disabled=false; $('fileName').textContent=`${it.pacote} › ${it.mes} › ${it.seg} · ${it.name}`;
   msg('Abrindo vídeo do Drive…');
   let bloqueio=false; const d=it.data||await driveData(it).catch(()=>{ bloqueio=true; return null });
   if(d){ if(!temKm(it)){ resumo(it); salvaCat(); renderCatalog() } setData(d,'do Drive'); if(irKm!=null){ const go=()=>goKm(irKm,'near'); if(V.readyState>=1) go(); else V.addEventListener('loadedmetadata',go,{once:true}) } }
