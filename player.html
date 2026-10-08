@@ -44,6 +44,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,canvas:focus-visib
 .nav-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 6px}
 .nav-head h2{margin:0;font-size:18px}
 .nav-head .btn-sm{padding:4px 9px}
+.nav-btns{display:flex;gap:6px}
 .nav .q{margin:0 12px 6px;background:#072540;border:1px solid var(--line-strong);color:var(--fg);font:500 13.5px var(--f-body);padding:7px 9px}
 .nav .q::placeholder{color:var(--muted)}
 .cat-st{font-size:12px;color:var(--muted);padding:0 12px 8px;border-bottom:1px solid var(--line);line-height:1.35}
@@ -214,7 +215,7 @@ header.top{align-items:center}
   <div class="main">
   <nav class="nav" aria-label="Catálogo de vídeos">
     <div class="nav-in">
-      <div class="nav-head"><h2>Vídeos</h2><button class="btn-sm" id="btnCat" type="button" title="Ler as pastas do Drive de novo">Atualizar</button></div>
+      <div class="nav-head"><h2>Vídeos</h2><span class="nav-btns"><button class="btn-sm" id="btnLocal" type="button" title="Abrir um vídeo do computador (selecione junto o .json de km, se tiver). Também dá para arrastar o arquivo para o player.">Abrir local</button><button class="btn-sm" id="btnCat" type="button" title="Ler as pastas do Drive de novo">Atualizar</button></span></div>
       <div class="cat-st" id="catSt" hidden></div>
       <div class="cat" id="cat"></div>
       <div class="cat-foot"><button class="lnk" id="btnCatSave" type="button" title="Baixa o catalogo.json com a lista atual, para publicar junto com o site">Salvar catálogo (.json)</button></div>
@@ -280,7 +281,7 @@ header.top{align-items:center}
 
 <input type="file" id="fVideo" accept="video/*,.mp4,.webm,.mov,.json" multiple hidden>
 <dialog class="dlg" id="dlg" aria-labelledby="dlgT"><div class="dh" id="dlgT">Erro</div><p id="dlgP"></p><div class="df"><button type="button" id="dlgOk">OK</button></div></dialog>
-<div class="drop" id="drop" hidden>Solte o vídeo exportado (e o .json de km, se tiver)</div>
+<div class="drop" id="drop" hidden>Solte aqui o vídeo exportado pelo gerador<br><small style="font-size:18px;opacity:.85">(e o arquivo _KM.json, se tiver)</small></div>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -491,7 +492,7 @@ async function openVideo(file,lookEmbedded){
   msg('Abrindo vídeo…');
   if(lookEmbedded){ const d=await readEmbedded(file);
     if(d) setData(d,'gravados no vídeo');
-    else { clearData(); V.controls=true; msg('Este vídeo não tem dados de km. Ele pode ter sido exportado por uma versão antiga do gerador ou recomprimido por outro aplicativo (como o WhatsApp). Abra o arquivo _KM.json do mesmo vídeo.','warn') } }
+    else { clearData(); V.controls=true; msg('Este vídeo não tem dados de km. Ele pode ter sido exportado por uma versão antiga do gerador ou recomprimido por outro aplicativo (como o WhatsApp). Abra junto o arquivo _KM.json do mesmo vídeo.','warn',true) } }
 }
 V.addEventListener('loadedmetadata',()=>{ V.playbackRate=+$('pSpeed').value; update() });
 V.addEventListener('error',()=>{ if(/googleapis/.test(V.currentSrc||'')&&CAT.cur&&!V.dataset.alt){ V.dataset.alt='1'; const t=V.currentTime||0; V.src=`https://drive.usercontent.google.com/download?id=${encodeURIComponent(CAT.cur.id)}&export=download&confirm=t`; if(t) V.addEventListener('loadedmetadata',()=>{ V.currentTime=t },{once:true}); return }
@@ -505,7 +506,7 @@ V.addEventListener('ended',()=>{ $('btnPlay').textContent='▶'; update();
 function togglePlay(){ if(!hasVideo()) return; if(V.paused||V.ended){ V.play().catch(()=>msg('O navegador bloqueou a reprodução. Clique em reproduzir de novo.','warn')) } else V.pause() }
 
 /* ---------- eventos ---------- */
-$('btnOpen2').onclick=()=>$('fVideo').click();
+$('btnOpen2').onclick=$('btnLocal').onclick=()=>$('fVideo').click();
 $('dlgOk').onclick=()=>$('dlg').close();
 /* abas do celular */
 document.querySelectorAll('.mtabs button').forEach(b=>b.onclick=()=>{ document.body.dataset.tab=b.dataset.tab;
@@ -549,7 +550,8 @@ document.addEventListener('keydown',e=>{
   else if(ST.data&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){ e.preventDefault(); const s=(e.shiftKey?1000:100)*(e.key==='ArrowRight'?1:-1); goKm(kmAt(curT())+s*ST.data.dir,s>0?'after':'before') }
 });
 let dragN=0;
-addEventListener('dragenter',e=>{e.preventDefault();dragN++;$('drop').hidden=false});
+const temArq=e=>[...(e.dataTransfer?.types||[])].includes('Files');
+addEventListener('dragenter',e=>{ if(!temArq(e)) return; e.preventDefault();dragN++;$('drop').hidden=false});
 addEventListener('dragleave',()=>{if(--dragN<=0){dragN=0;$('drop').hidden=true}});
 addEventListener('dragover',e=>e.preventDefault());
 addEventListener('drop',e=>{e.preventDefault();dragN=0;$('drop').hidden=true; const fs=[...e.dataTransfer.files]; if(fs.length) openFiles(fs)});
