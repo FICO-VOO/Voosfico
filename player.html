@@ -164,6 +164,7 @@ header.top{align-items:center}
 .dlg p{margin:0;padding:0 16px 14px 50px;color:var(--muted);font-size:14.5px;line-height:1.5}
 .dlg .df{display:flex;justify-content:flex-end;gap:8px;padding:10px 16px 14px;border-top:1px solid var(--line)}
 .dlg .df button{background:var(--orange);color:var(--orange-ink);border:0;font:600 14px var(--f-body);padding:8px 18px;cursor:pointer}
+.dlg .df button.sec{background:transparent;color:var(--fg);border:1px solid var(--line-strong)}
 /* ---------- celular ---------- */
 @media (max-width:760px){
   body{padding:0 10px 20px;font-size:14.5px}
@@ -280,7 +281,7 @@ header.top{align-items:center}
 </div>
 
 <input type="file" id="fVideo" accept="video/*,.mp4,.webm,.mov,.json" multiple hidden>
-<dialog class="dlg" id="dlg" aria-labelledby="dlgT"><div class="dh" id="dlgT">Erro</div><p id="dlgP"></p><div class="df"><button type="button" id="dlgOk">OK</button></div></dialog>
+<dialog class="dlg" id="dlg" aria-labelledby="dlgT"><div class="dh" id="dlgT">Erro</div><p id="dlgP"></p><div class="df"><button type="button" id="dlgLocal" class="sec" hidden>Abrir arquivo local</button><button type="button" id="dlgOk">OK</button></div></dialog>
 <div class="drop" id="drop" hidden>Solte aqui o vídeo exportado pelo gerador<br><small style="font-size:18px;opacity:.85">(e o arquivo _KM.json, se tiver)</small></div>
 
 <script>
@@ -292,8 +293,11 @@ const MARK={oae:{nome:'OAE',cor:'#2f7fd0'},pn:{nome:'PN',cor:'#ffffff'},patio:{n
 /* ---------- utilidades ---------- */
 function msg(t,k='',pop){ $('msg').textContent=t; $('msgDot').className='dot '+k; if(pop??k==='err') popup(t,k==='err'?'Erro ao carregar':'Atenção',k) }
 /* caixa de aviso para erros de carregamento (não repete a mesma mensagem enquanto está aberta) */
-function popup(t,titulo='Erro ao carregar',k='err'){ const d=$('dlg'); if(d.open&&$('dlgP').textContent===t) return;
-  $('dlgT').textContent=titulo; $('dlgP').textContent=t; d.className='dlg '+(k==='warn'?'warn':''); if(!d.open){ try{ d.showModal() }catch(e){ d.setAttribute('open','') } } }
+function popup(t,titulo='Erro ao carregar',k='err',local=false){ const d=$('dlg'); if(d.open&&$('dlgP').textContent===t) return;
+  $('dlgLocal').hidden=!local; $('dlgT').textContent=titulo; $('dlgP').textContent=t; d.className='dlg '+(k==='warn'?'warn':''); if(!d.open){ try{ d.showModal() }catch(e){ d.setAttribute('open','') } } }
+/* falhas de conexão com o Google Drive (cota de download, bloqueio da rede, sem acesso): orienta a usar o arquivo local */
+const LIMITE='Atingido o limite de visualização online. Utilize a opção de arquivo local (botão "Abrir local" ou arraste o vídeo para o player) para continuar utilizando.';
+function avisoLimite(){ $('msg').textContent=LIMITE; $('msgDot').className='dot warn'; popup(LIMITE,'Limite de visualização online','warn',true) }
 function fmtKm(m){ if(m==null||!isFinite(m)) return '—'; if(m>=500000) m-=1000000; /* Alça Sul: estaqueamento próprio, guardado a partir de 1.000 km */ let v=Math.round(m); const neg=v<0; v=Math.abs(v); const k=Math.floor(v/1000), r=v-k*1000; return (neg?'-':'')+String(k).padStart(3,'0')+'+'+String(r).padStart(3,'0') }
 function fmtDist(m){ m=Math.abs(m); return m<1000?Math.round(m)+' m':(m/1000).toFixed(2).replace('.',',')+' km' }
 function fmtTime(s){ if(!isFinite(s)) s=0; s=Math.max(0,s); const h=Math.floor(s/3600), mi=Math.floor(s/60)%60, se=Math.floor(s%60); return (h?h+':'+String(mi).padStart(2,'0'):mi)+':'+String(se).padStart(2,'0') }
@@ -496,7 +500,8 @@ async function openVideo(file,lookEmbedded){
 }
 V.addEventListener('loadedmetadata',()=>{ V.playbackRate=+$('pSpeed').value; update() });
 V.addEventListener('error',()=>{ if(/googleapis/.test(V.currentSrc||'')&&CAT.cur&&!V.dataset.alt){ V.dataset.alt='1'; const t=V.currentTime||0; V.src=`https://drive.usercontent.google.com/download?id=${encodeURIComponent(CAT.cur.id)}&export=download&confirm=t`; if(t) V.addEventListener('loadedmetadata',()=>{ V.currentTime=t },{once:true}); return }
-  msg(/google/.test(V.currentSrc||'')?'O Drive não liberou este vídeo agora. O Google pode ter limitado os downloads desta rede ou deste arquivo por um tempo; tente de novo mais tarde.':'O navegador não conseguiu abrir este vídeo. Use o Google Chrome ou o Microsoft Edge atualizados.','err') });
+  if(/google/.test(V.currentSrc||'')) return avisoLimite();
+  msg('O navegador não conseguiu abrir este vídeo. Use o Google Chrome ou o Microsoft Edge atualizados.','err') });
 V.addEventListener('play',()=>{ $('btnPlay').textContent='❚❚'; $('btnPlay').setAttribute('aria-label','Pausar'); loop() });
 V.addEventListener('pause',()=>{ $('btnPlay').textContent='▶'; $('btnPlay').setAttribute('aria-label','Reproduzir'); update() });
 V.addEventListener('seeked',()=>update());
@@ -508,6 +513,7 @@ function togglePlay(){ if(!hasVideo()) return; if(V.paused||V.ended){ V.play().c
 /* ---------- eventos ---------- */
 $('btnOpen2').onclick=$('btnLocal').onclick=()=>$('fVideo').click();
 $('dlgOk').onclick=()=>$('dlg').close();
+$('dlgLocal').onclick=()=>{ $('dlg').close(); $('fVideo').click() };
 /* abas do celular */
 document.querySelectorAll('.mtabs button').forEach(b=>b.onclick=()=>{ document.body.dataset.tab=b.dataset.tab;
   document.querySelectorAll('.mtabs button').forEach(x=>x.setAttribute('aria-selected',String(x===b))); setTimeout(()=>update(),30) });
@@ -637,9 +643,9 @@ async function buildCatalog(){
     if(CAT.cur){ const c=CAT.itens.find(x=>x.id===CAT.cur.id); if(c){ c.data=c.data||CAT.cur.data; CAT.cur=c } }
     salvaCat();
     const pend=CAT.itens.filter(it=>!temKm(it)).length;
-    if(bloq) popup('O Google limitou por enquanto os downloads do Drive desta rede ("tráfego automatizado")'+(pend?`. O km de ${pend} vídeo(s) aparece quando o Google liberar`:'')+'. Tente Atualizar mais tarde.','Drive indisponível','warn');
+    if(bloq) avisoLimite();
     renderCatalog();
-  }catch(e){ popup('Não foi possível ler as pastas do Drive ('+(e.message||e)+'). '+(CAT.itens.length?'A lista mostrada é a do catálogo; os vídeos novos aparecem quando o Drive responder.':'Confira a internet e tente Atualizar.'),'Drive indisponível',CAT.itens.length?'warn':'err'); if(!CAT.itens.length){ $('cat').innerHTML='<p class="none">Não foi possível carregar a lista de vídeos.</p>' } }
+  }catch(e){ avisoLimite(); if(!CAT.itens.length){ $('cat').innerHTML='<p class="none">Não foi possível carregar a lista de vídeos.</p>' } }
   finally{ CAT.busy=false; $('btnCat').disabled=false; st.hidden=true }
 }
 const kmIni=it=>it.ini, kmFim=it=>it.fim;
@@ -684,7 +690,7 @@ async function openDrive(it,irKm,tocar){
   if(tocar&&it.btn) it.btn.scrollIntoView({block:'nearest'});
   let bloqueio=false; const d=it.data||await driveData(it).catch(()=>{ bloqueio=true; return null });
   if(d){ if(!temKm(it)){ resumo(it); salvaCat(); renderCatalog() } setData(d,'do Drive'); if(irKm!=null){ const go=()=>goKm(irKm,'near'); if(V.readyState>=1) go(); else V.addEventListener('loadedmetadata',go,{once:true}) } }
-  else { clearData(); V.controls=true; msg(bloqueio?'Não foi possível baixar os dados de km deste vídeo do Drive agora. O Google pode ter limitado os downloads desta rede por um tempo; tente mais tarde.':'Este vídeo não tem dados de km.',bloqueio?'err':'warn',true) }
+  else { clearData(); V.controls=true; if(bloqueio) avisoLimite(); else msg('Este vídeo não tem dados de km.','warn',true) }
 }
 $('btnCat').onclick=()=>buildCatalog();
 /* catálogo pronto publicado junto com o site (catalogo.json): a lista e os km aparecem sem baixar nada do Drive;
