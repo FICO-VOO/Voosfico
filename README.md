@@ -8,7 +8,8 @@ Converte a legenda `.SRT` de voos de drone DJI, cruza as coordenadas com a base 
 
 - nova legenda com km, pacote, segmento, cidade, corte/aterro (com extensão), OAE, PN, pátios, AMV, bueiros e passagens, e as ligações Norte e Sul com a Ferrovia Norte-Sul;
 - vídeo com a legenda gravada, mini-mapa e logos, com velocidade variável em km/min;
-- vários vídeos em sequência juntados num vídeo único, com corte automático das sobreposições, correção de km por vídeo e km inicial/final do vídeo final;
+- vários vídeos em sequência juntados num vídeo único, com corte no início e no final de cada vídeo, corte automático das sobreposições (acerta as estacas na emenda), correção de km por vídeo e km inicial/final do vídeo final;
+- abertura opcional: logos grandes no centro que deslizam para os cantos, com o título do trecho (km, segmento) e a data do voo;
 - os dados de km gravados no próprio vídeo e num arquivo `_KM.json`, para abrir no Player FICO.
 
 A base de estacas da FICO (BD estacas, versão de 07/10/2026, incluindo a Alça Sul) já vem embutida na página.
