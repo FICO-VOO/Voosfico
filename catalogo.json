@@ -1,7 +1,7 @@
 {
  "v": 1,
  "app": "Player FICO",
- "gerado": "2026-10-08T02:10:05.921Z",
+ "gerado": "2026-10-09T22:57:05.756Z",
  "itens": [
   {
    "id": "1o5lb8JXQm3LlONbZHy_j0nvg-F0oQXxR",
@@ -79,34 +79,49 @@
    "date": "05/10/2026"
   },
   {
-   "id": "1ZQ7bQtynkQHB1hxh696yHV1fQ8iE7qV8",
-   "name": "Sub 1.8.mp4",
-   "size": "264186143",
+   "id": "1K87kyOzyifZ9AL7tsmjOd8T2LFDg2H7s",
+   "name": "Seg 1.4B.mp4",
+   "size": "354863120",
    "json": {
-    "id": "1sVJ9Vww9Y9ILUcnB7j5c-Qio61cnJd0z"
+    "id": "1Obz59d0dM66XLxMPgLY_cntYmJtygRf4"
    },
-   "mes": "Setembro 2026",
-   "mesKey": "2026-09",
-   "pacote": "Pacote 03",
-   "seg": "Seg. 1.8",
-   "ini": 80081.3,
-   "fim": 88200.2,
-   "date": "04/09/2026"
+   "mes": "Outubro 2026",
+   "mesKey": "2026-10",
+   "pacote": "Pacote 02",
+   "seg": "Seg. 1.4B",
+   "ini": 37979.6,
+   "fim": 46399.9,
+   "date": "09/10/2026"
   },
   {
-   "id": "19yf1gFwWQ9Hqx0bhdcNqEVorvl8P8xEY",
-   "name": "Sub 2.2A.mp4",
-   "size": "168447428",
+   "id": "1ydynszphC2TbPkdqbDGa1bye7XfaQZAG",
+   "name": "Seg 1.6.mp4",
+   "size": "697928565",
    "json": {
-    "id": "1Bgd-hbMB6wb_Hu32v9ngE7k-JMaH3sPx"
+    "id": "1twIApu6Xkjhm8dQY1c14GJKRPO0hFH5z"
    },
-   "mes": "Setembro 2026",
-   "mesKey": "2026-09",
-   "pacote": "Pacote 03",
-   "seg": "Seg. 2.2A",
-   "ini": 99787.2,
-   "fim": 105297.1,
-   "date": "04/09/2026"
+   "mes": "Outubro 2026",
+   "mesKey": "2026-10",
+   "pacote": "Pacote 02",
+   "seg": "Seg. 1.6",
+   "ini": 55100,
+   "fim": 71612.7,
+   "date": "09/10/2026"
+  },
+  {
+   "id": "1qg4TqA6lv1qeSnpZNLIU99frYpZhHx1w",
+   "name": "Seg 1.5.mp4",
+   "size": "397725187",
+   "json": {
+    "id": "1hIP50UjSrl_AXMoOxDxy17_g8BVeN0Ha"
+   },
+   "mes": "Outubro 2026",
+   "mesKey": "2026-10",
+   "pacote": "Pacote 02",
+   "seg": "Seg. 1.5",
+   "ini": 46103.7,
+   "fim": 55499.4,
+   "date": "09/10/2026"
   },
   {
    "id": "1hie6Sr9-aYGlpXEvCla_c4ZgIkzhxP7F",
@@ -121,6 +136,36 @@
    "seg": "Seg. 1.7",
    "ini": 71056.8,
    "fim": 80262.8,
+   "date": "04/09/2026"
+  },
+  {
+   "id": "1CQh_XsKDaJsWtguP4soSIJHMRIbciArM",
+   "name": "Sub 3A.1.mp4",
+   "size": "78888922",
+   "json": {
+    "id": "19Fg5N1j_kzIUlPgqo1a_VUThYKGGh7qd"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 07",
+   "seg": "Seg. 3A.1",
+   "ini": 225867.7,
+   "fim": 228449.9,
+   "date": "30/09/2026"
+  },
+  {
+   "id": "19yf1gFwWQ9Hqx0bhdcNqEVorvl8P8xEY",
+   "name": "Sub 2.2A.mp4",
+   "size": "168447428",
+   "json": {
+    "id": "1Bgd-hbMB6wb_Hu32v9ngE7k-JMaH3sPx"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 03",
+   "seg": "Seg. 2.2A",
+   "ini": 99787.2,
+   "fim": 105297.1,
    "date": "04/09/2026"
   },
   {
@@ -139,77 +184,19 @@
    "date": "04/09/2026"
   },
   {
-   "id": "1W5aTkKt0IXFMMyqXQ2MhhnV7D3NttuCx",
-   "name": "Sub 3.3.mp4",
-   "size": "783281993",
+   "id": "1ZQ7bQtynkQHB1hxh696yHV1fQ8iE7qV8",
+   "name": "Sub 1.8.mp4",
+   "size": "264186143",
    "json": {
-    "id": "1U9VT-VVcJtKdqFlus7NbKVzTgoh7eOC9"
+    "id": "1sVJ9Vww9Y9ILUcnB7j5c-Qio61cnJd0z"
    },
    "mes": "Setembro 2026",
    "mesKey": "2026-09",
-   "pacote": "Pacote 06",
-   "seg": "Seg. 3.3",
-   "ini": 202754.4,
-   "fim": 225867.7,
-   "date": "30/09/2026"
-  },
-  {
-   "id": "1S2aRgdbhHBoHu48YV75-QDqWDSBmaQlH",
-   "name": "Sub 3.2.mp4",
-   "size": "1381337380",
-   "json": {
-    "id": "1-34WXAnV5Vw-fF0cyyAalsjTumy83x9j"
-   },
-   "mes": "Setembro 2026",
-   "mesKey": "2026-09",
-   "pacote": "Pacote 06",
-   "seg": "Seg. 3.2",
-   "ini": 167238.2,
-   "fim": 203190.7,
-   "date": "29/09/2026"
-  },
-  {
-   "id": "1CQh_XsKDaJsWtguP4soSIJHMRIbciArM",
-   "name": "Sub 3A.1.mp4",
-   "size": "78888922",
-   "json": {
-    "id": "19Fg5N1j_kzIUlPgqo1a_VUThYKGGh7qd"
-   },
-   "mes": "Setembro 2026",
-   "mesKey": "2026-09",
-   "pacote": "Pacote 07",
-   "seg": "Seg. 3A.1",
-   "ini": 225867.7,
-   "fim": 228449.9,
-   "date": "30/09/2026"
-  },
-  {
-   "id": "1AsnYzSQgRAd0UguivD_xOyL2lBXlFt8E",
-   "name": "Sub 2.2B.mp4",
-   "size": "371052771",
-   "json": {
-    "id": "1Ey_YlQk9zpqAO-nfylKeHCR4Kkf3xnBR"
-   },
-   "mes": "Setembro 2026",
-   "mesKey": "2026-09",
-   "pacote": "Pacote 04",
-   "seg": "Seg. 2.2B",
-   "ini": 104826.4,
-   "fim": 116469.7,
-   "date": "08/09/2026"
-  },
-  {
-   "id": "18ItAnZn-ndsIUYe-yzDUwMu6kPzrjDk5",
-   "name": "Sub 3.A2.mp4",
-   "size": "374254434",
-   "json": null,
-   "mes": "Setembro 2026",
-   "mesKey": "2026-09",
-   "pacote": "Pacote 07",
-   "seg": "Seg. 3A.2",
-   "ini": 228366.9,
-   "fim": 240110.9,
-   "date": "28/09/2026"
+   "pacote": "Pacote 03",
+   "seg": "Seg. 1.8",
+   "ini": 80081.3,
+   "fim": 88200.2,
+   "date": "04/09/2026"
   },
   {
    "id": "1yFwuALg50wjbOSLs-0Ps4-AvH_y_Vole",
@@ -227,6 +214,64 @@
    "date": "08/09/2026"
   },
   {
+   "id": "18ItAnZn-ndsIUYe-yzDUwMu6kPzrjDk5",
+   "name": "Sub 3.A2.mp4",
+   "size": "374254434",
+   "json": null,
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 07",
+   "seg": "Seg. 3A.2",
+   "ini": 228366.9,
+   "fim": 240110.9,
+   "date": "28/09/2026"
+  },
+  {
+   "id": "1_0oeH123MG_wAFan0Mt3el7jmbtm0Pcz",
+   "name": "Sub 4.2.mp4",
+   "size": "490931644",
+   "json": {
+    "id": "15SikrEqjzQRJPyrZAGOoyo8dyBOxmS_f"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 08",
+   "seg": "Seg. 4.2",
+   "ini": 253435.7,
+   "fim": 269166.9,
+   "date": "25/09/2026"
+  },
+  {
+   "id": "1AsnYzSQgRAd0UguivD_xOyL2lBXlFt8E",
+   "name": "Sub 2.2B.mp4",
+   "size": "371052771",
+   "json": {
+    "id": "1Ey_YlQk9zpqAO-nfylKeHCR4Kkf3xnBR"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 04",
+   "seg": "Seg. 2.2B",
+   "ini": 104826.4,
+   "fim": 116469.7,
+   "date": "08/09/2026"
+  },
+  {
+   "id": "1W5aTkKt0IXFMMyqXQ2MhhnV7D3NttuCx",
+   "name": "Sub 3.3.mp4",
+   "size": "783281993",
+   "json": {
+    "id": "1U9VT-VVcJtKdqFlus7NbKVzTgoh7eOC9"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 06",
+   "seg": "Seg. 3.3",
+   "ini": 202754.4,
+   "fim": 225867.7,
+   "date": "30/09/2026"
+  },
+  {
    "id": "12FrwwazKSoKJrDy_cxH3esDiML2gBKY4",
    "name": "Sub 4.1.mp4",
    "size": "423613408",
@@ -242,6 +287,51 @@
    "date": "28/09/2026"
   },
   {
+   "id": "1S2aRgdbhHBoHu48YV75-QDqWDSBmaQlH",
+   "name": "Sub 3.2.mp4",
+   "size": "1381337380",
+   "json": {
+    "id": "1-34WXAnV5Vw-fF0cyyAalsjTumy83x9j"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 06",
+   "seg": "Seg. 3.2",
+   "ini": 167238.2,
+   "fim": 203190.7,
+   "date": "29/09/2026"
+  },
+  {
+   "id": "1N3jbn8thu8ZgIccP17KGEYvS9FmZTA_C",
+   "name": "Seg 1.3.mp4",
+   "size": "188494698",
+   "json": {
+    "id": "1awlzkmqEb9WzpDl7E3qmJ_Lc7fJkrEQB"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 01",
+   "seg": "Seg. 1.3",
+   "ini": 25000.5,
+   "fim": 31150.1,
+   "date": "01/09/2026"
+  },
+  {
+   "id": "1u316tGA3bYjiNG9RG8PAb4YWVChAjWsx",
+   "name": "Seg 1.2.mp4",
+   "size": "485065766",
+   "json": {
+    "id": "11OOqzAK1haNrYbb5XF5vcZ4ZtjClbUS1"
+   },
+   "mes": "Setembro 2026",
+   "mesKey": "2026-09",
+   "pacote": "Pacote 01",
+   "seg": "Seg. 1.2",
+   "ini": 11770.7,
+   "fim": 26465.1,
+   "date": "01/09/2026"
+  },
+  {
    "id": "11pW79r0vfsxbzZe2tCNC2Xbq_CLwo_4n",
    "name": "Seg 1.4A.mp4",
    "size": "223683560",
@@ -252,34 +342,6 @@
    "seg": "Seg. 1.4A",
    "ini": 30901.1,
    "fim": 38125.2,
-   "date": "02/09/2026"
-  },
-  {
-   "id": "1ae3_0uejk_g7QiDgvBLfq96t4jfFJWmD",
-   "name": "Seg 1.1.mp4",
-   "size": "203263369",
-   "json": {
-    "id": "16v4Rh5GDegk4_LIg-ifXKm5sYNjCkGM3"
-   },
-   "mes": "Setembro 2026",
-   "mesKey": "2026-09",
-   "pacote": "Pacote 01",
-   "seg": "Seg. 1.1",
-   "ini": -258.7,
-   "fim": 11959.9,
-   "date": "01/09/2026"
-  },
-  {
-   "id": "10EdEUysvxcjA-r3OViQu8TVGSbHxzpeZ",
-   "name": "Seg 1.4B.mp4",
-   "size": "260496305",
-   "json": null,
-   "mes": "Setembro 2026",
-   "mesKey": "2026-09",
-   "pacote": "Pacote 02",
-   "seg": "Seg. 1.6",
-   "ini": 37955.3,
-   "fim": 46300.6,
    "date": "02/09/2026"
   },
   {
@@ -298,34 +360,32 @@
    "date": "02/09/2026"
   },
   {
-   "id": "1u316tGA3bYjiNG9RG8PAb4YWVChAjWsx",
-   "name": "Seg 1.2.mp4",
-   "size": "485065766",
+   "id": "1ae3_0uejk_g7QiDgvBLfq96t4jfFJWmD",
+   "name": "Seg 1.1.mp4",
+   "size": "203263369",
    "json": {
-    "id": "11OOqzAK1haNrYbb5XF5vcZ4ZtjClbUS1"
+    "id": "16v4Rh5GDegk4_LIg-ifXKm5sYNjCkGM3"
    },
    "mes": "Setembro 2026",
    "mesKey": "2026-09",
    "pacote": "Pacote 01",
-   "seg": "Seg. 1.2",
-   "ini": 11770.7,
-   "fim": 26465.1,
+   "seg": "Seg. 1.1",
+   "ini": -258.7,
+   "fim": 11959.9,
    "date": "01/09/2026"
   },
   {
-   "id": "1N3jbn8thu8ZgIccP17KGEYvS9FmZTA_C",
-   "name": "Seg 1.3.mp4",
-   "size": "188494698",
-   "json": {
-    "id": "1awlzkmqEb9WzpDl7E3qmJ_Lc7fJkrEQB"
-   },
+   "id": "1XLrTinuJ4Of2LtcpDkM5DS4YOfKNvH0p",
+   "name": "Seg1.6.mp4",
+   "size": "548729402",
+   "json": null,
    "mes": "Setembro 2026",
    "mesKey": "2026-09",
-   "pacote": "Pacote 01",
-   "seg": "Seg. 1.3",
-   "ini": 25000.5,
-   "fim": 31150.1,
-   "date": "01/09/2026"
+   "pacote": "Pacote 02",
+   "seg": "Seg. 1.6",
+   "ini": 55001,
+   "fim": 71339,
+   "date": "02/09/2026"
   },
   {
    "id": "1-KQq5CqXd_E66AOeMkZYYzo6vE0yAuSN",
